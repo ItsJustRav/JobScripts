@@ -1,0 +1,114 @@
+
+;Load case file
+/file/read-case ;"<casename>.cas"
+
+
+;Mesh Checks
+mesh check
+mesh mesh-info
+mesh memory-usage
+mesh quality
+
+
+;Define General Settings
+/define/models/steady yes;Time, for Transient: unsteady-2nd-order? yes
+/define/models/solver/pressure-based yes;Solver
+/define/models/solver//define/models/viscous/kw-sst yes;Models
+
+
+;Define Boundary Conditions
+;;Velocity
+/define/boundary-conditions/velocity-inlet velocity_inlet ;Zone Name
+yes;"Velocity Specification Method: Magnitude and Direction"
+yes;"Referemce Frame: Absolute"
+no;"Use Profile for Velocity Magnitude?"
+40;"Velocity Magnitude (m/s)"
+no;"Use Profile for Supersonic/Initial Gauge Pressure?"
+0;"Supersonic/Initial Gauge Pressure (pascal)"
+yes;"Coordinate System: Cartesian (X, Y, Z)"
+no;"Use Profile for X-Component of Flow Direction?"
+1;"X-Component of Flow Direction"
+no;"Use Profile for Y-Component of Flow Direction?"
+0;"Y-Component of Flow Direction"
+no;"Use Profile for Z-Component of Flow Direction?"
+0;"Z-Component of Flow Direction"
+no;"Turbulent Specification Method: K and Omega"
+yes;"Turbulent Specification Method: Intensity and Length Scale"
+1;"Turbulent Intensity (%)"
+100;"Turbulent Length Scale (m)" 
+
+;;Pressure Outlet
+/define/boundary-conditions/pressure-outlet pressure_outlet;Zone Name
+yes;"Backflow Reference Frame: Absolute"
+no;"Use Profile for Gauge Pressure?"
+0;"Gauge Pressure (pascal)"
+no;"Backflow Direction Specification Method: Direction Vector"
+yes;"Backflow Direction Specification Method: Normal to Boundary"
+no;"Turbulent Specification Method: K and Omega"
+yes;"Turbulent Specification Method: Intensity and Length Scale"
+1;"Turbulent Intensity (%)"
+100;"Turbulent Length Scale (m)" 
+yes;"Backflow Pressure Specification: Total Pressure"
+no;"Radial Equilibrium Pressure Distribution"
+no;"Average Pressure Specification?"
+no;"Specify targeted mass flow rate"
+
+
+;Reference Values List
+/report/reference-values/compute velocity-inlet velocity_inlet;Zone name
+/report/reference-values/area 0.112;Area (m2)
+/report/reference-values/length 1.044;Length (m)
+
+
+;Solution Methods
+/solve/set p-v-coupling 24;Pressure-Velocity Coupling (20-SIMPLE, 21-SIMPLEC, 22-PISO, 24-Coupled)
+/solve/set/discretization-scheme/pressure 12;Pressure Discretization (10-Standard, 11-Linear, 12-Second Order, 13-Body Force Weighted, 14-PRESTO!, 15-Continuity Based)
+
+;;Spatial discretization schemes (0-First Order Upwind, 1-Second Order Upwind, 2-Power Law, 3-Central Differencing, 4-QUICK)
+/solve/set/discretization-scheme/mom 1;Momentum
+/solve/set/discretization-scheme/k 1; Turbulent Kinetic Energy
+/solve/set/discretization-scheme/omega 1; Specific Dessipation Rate
+
+
+;Solution Control
+/solve/set/relaxation-method "gauss-seidel";Smoother Type
+
+;;Under-Relaxation Factors
+/solve/set/under-relaxation/pressure 0.3;Pressure
+/solve/set/under-relaxation/density 1;Density
+/solve/set/under-relaxation/body-force 1;Body Force
+/solve/set/under-relaxation/mom 0.7;Momentum
+/solve/set/under-relaxation/k 0.8;Turbulent Kinetic Energy
+/solve/set/under-relaxation/omega 0.8;Specific Dessipation Rate
+/solve/set/under-relaxation/turb-viscosity 1;Turbulent Viscosity
+
+
+;Convergence (Residuals)
+/solve/monitors/residual/convergence-criteria/
+0.0001;"Continuity residual convergence criterion"
+0.0001;"x-velocity residual convergence criterion"
+0.0001;"y-velocity residual convergence criterion"
+0.0001;"z-velocity residual convergence criterion"
+0.0001;"k residual convergence criterion"
+0.0001;"omega residual convergence criterion"
+
+;; Write Residuals to File
+/plot/residuals-set/plot-to-file "residuals.txt";If empty, execute after simulation and run 1 more iteration
+
+
+
+;Initialize defaults from "inlet"
+/solve/initialize/compute-defaults/velocity-inlet;<inletName>
+
+;Initialize solution
+/solve/initialize/initialize-flow
+
+;Solve for n timesteps 
+/solve/dual-time-iterate ;<nTimesteps>
+
+;Write data
+/file/write-data ;<dataname>.dat
+
+;Exiting simulation
+exit 
+yes
