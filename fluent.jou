@@ -96,6 +96,11 @@ no;"Specify targeted mass flow rate"
 /plot/residuals-set/plot-to-file "residuals.txt";If empty, execute after simulation and run 1 more iteration
 
 
+;Report Definitions
+/solve/monitors/force/set-drag-monitor cd-1 yes wall-air () yes yes "./output/cd-25" no no 0 0 -1 
+/solve/monitors/force/set-lift-monitor cl-1 yes wall-air () yes yes "./output/cl-25" no no 0 1 0
+https://www.cfd-online.com/Forums/fluent/120971-cd-cl-convergence-history-get-overwritten.html
+
 
 ;Initialize defaults from "inlet"
 /solve/initialize/compute-defaults/velocity-inlet;<inletName>
