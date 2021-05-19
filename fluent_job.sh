@@ -11,7 +11,7 @@
 #SBATCH --ntasks-per-node=24           ## Number of tasks per per node
 #SBATCH --error=err_%job-name.log      ## Error log
 #SBATCH --output=out_%job-name.log     ## Output log
-#SBATCH --mail-user=email@uni.ac.uk    ## E-mail for notifications
+#SBATCH --mail-user=email@northumbria.ac.uk    ## E-mail for notifications
 #SBATCH --mail-type=ALL                ## Types of notification for e-mails
 #SBATCH --partition=24hour             ## Job que to submit <24hour, 48hou, 120hour>
 ####################################
