@@ -1,0 +1,4 @@
+file/read-case-data ab_iso_kwsst/AB25_Iso_FW_init.cas.h5
+solve/iterate 10
+file/write-case-data ab_iso_kwsst/AB25_Iso_FW_init_out.dat
+exit
