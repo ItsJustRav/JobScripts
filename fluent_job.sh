@@ -7,8 +7,8 @@
 # Set up submit to ...
 #SBATCH --job-name="JobName"           ## Job name
 #SBATCH --time=12:00:00                ## Time limit hrs:mm:ss
-#SBATCH --nodes=2                      ## Number of nodes
-#SBATCH --ntasks-per-node=24           ## Number of tasks per per node
+#SBATCH --nodes=1                      ## Number of nodes
+#SBATCH --ntasks-per-node=56           ## Number of tasks per per node
 #SBATCH --error=err_%job-name.log      ## Error log
 #SBATCH --output=out_%job-name.log     ## Output log
 #SBATCH --mail-user=email@northumbria.ac.uk    ## E-mail for notifications
@@ -29,9 +29,15 @@ module load ANSYS/2021R1  ## Load the ANSYS module
 
 # Case Details
 # fluent.journal  ## Journal file name
-JOURNALFILE= ab_iso_kwsst/run_case.journal
+#JOURNALFILE= run_case.jou
+
+# Time Stamp: Start
+echo "<------------------Start------------------>"
+date
 
 # Execute Solver
-fluent 3d -g -slurm -t$NPROCS -mpi=openmpi -i $JOURNALFILE > fluent.log
+fluent 3d -gu -slurm -t$((nodes*cores)) -mpi=openmpi -i run_case.jou > fluent.log
 
-
+# Time Stamp: End
+date
+echo "<--------------------End-------------------->
