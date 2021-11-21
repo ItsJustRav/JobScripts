@@ -1,0 +1,63 @@
+;Run LES Case
+;Journal file (TUI commands) for fluent LES case execution on a HPC (Linux) by Ravindu Ranaweera (https://github.com/ItsJustRav)
+;Tested on ANSYS2021R1
+;Lines starting with ";" are comments or TUI commands have been disabled (not needed or set by GUI)
+
+;Batch loading options (confirm overwrite, hide questions, exit on error, re-display question)
+/file/set-batch-options no yes yes no
+
+;Interrupt solution at end of time step (#t) or at end of iteration (#f), needs further testing
+;(ckpt/time-step?#t)
+;Setup check points to check for exit-fluent or check-fluent files to save or save and exit, needs further testing
+;(set! checkpoint/check-filename "./check-fluent")
+;(set! checkpoint/exit-filename "./exit-fluent")
+
+;Read case and data
+/file/read-case <casename>.cas.h5
+/file/read-data <casename>.dat.h5
+
+;Mesh info and memory usage
+/mesh/memory-usage
+
+;File saving frequency settings
+/file/auto-save/data-frequency 100
+/file/auto-save/save-data-file-every time-step
+/file/auto-save/append-file-name-with time-step 4
+/file/auto-save/case-frequency if-case-is-modified
+;Autosaved files to retain (no: retains all files).
+/file/auto-save/retain-most-recent-files yes
+;Max no. of files to retain (only available if retain-most-recent-files set to yes, if not comment out)
+/file/auto-save/max-files 2
+;Autosave file name (and location, use "" incase of space)
+/file/auto-save/root-name <location/casename>
+
+
+;Initialize using velocity-inlet <inlet_name>
+;/solve/initialize/compute-defaults/velocity-inlet velocity_inlet yes
+;/solve/initialize/initialize-flow
+;Hybrid initialization
+;/solve/initialize/hyb-initialization
+;/Initialize accoustics and ramping
+;/solve/initialize/init-acoustics-options yes 1000
+
+;Check convergence (residuals), adjust according to number of residuals (usually 3x yes for LES, 6x for URANS)
+;/solve/monitors/residual/check-convergence yes yes yes
+;/solve/monitors/residual/convergence-criteria 0.0000001 0.0000001 0.0000001
+;No. of residuals to save and display
+;/solve/monitors/residual/n-save 100000
+;/solve/monitors/residual/n-display 100000
+;Save residuals to file
+;/plot/residuals-set/plot-to-file "residuals.res" 
+
+;Timestep size
+;/solve/set/time-step 0.0005
+;Timesteps and max iterations per timestemp
+/solve/dual-time-iterate 1 30
+
+;Write the final output (also there with autosave)
+file/write-case-data <casename>_out
+
+;Performance information
+/parallel/timer/usage
+
+exit

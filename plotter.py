@@ -27,11 +27,13 @@ for fname in glob.glob("*.out"):
     data_l=[s.replace(")", "") for s in data_l]         # Clean headers from additional characters
     
     x = data[:,0]                                       # Load the first column as x values
-    y=data[:,1:]                                        # Load rest of the columns as Y values
+    y=data[:,1:-2]                                      # Load rest of the columns as Y values except last 2
     
     plt.title(fname)                                    # Title of the plot (set to data file name)
+    #plt.ylim([-4, -0.5])                                # Limits of the y-axis
+    #plt.xlim([100, 10000])                              # Limits of the x-axis
     plt.plot(x, y)                                      # Plot the graphs
-    plt.legend(data_l[1:])                              # Ignore the first column from header line and assign to legend
+    plt.legend(data_l[1:-2])                            # Ignore the first column from header line and assign to legend and except last 2
     plt.savefig("monitors/plot_{}.png".format(fname))   # Save plots as images
 
 

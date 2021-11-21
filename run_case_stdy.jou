@@ -1,0 +1,25 @@
+;no
+;Batch loading options (confirm overwrite, hide questions, exit on error, re-display question)
+/file/set-batch-options no yes yes no
+
+;Load case file and data file
+file/read-case-data AB25x2_Plat_1L_S1.cas.h5
+
+;Mesh info and memory usage
+/mesh/memory-usage
+
+;Initialize using velocity-inlet <inlet_name>
+/solve/initialize/compute-defaults/velocity-inlet velocity_inlet
+/solve/initialize/initialize-flow
+
+;Save residuals to file
+;/plot/residuals-set/plot-to-file "residuals.res" 
+
+;Number of iterations
+solve/iterate 500
+
+;Write the output data file
+file/write-case-data AB25x2_Plat_1L_S1_out.dat
+
+;End
+exit

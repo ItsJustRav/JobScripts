@@ -1,0 +1,17 @@
+In Cluster;
+- Job submission
+> Job name updated on job submission script [ ]
+> Journal file name updated on job submission script [ ]
+> End time configured [ ]
+> Correct job que selected [ ]
+> 2D/3D options selected [ ]
+
+- Journal File
+> Case Name updated on journal [ ]
+> Data file name updated on journal [ ]
+> Initialization on/off/method checked [ ]
+> Residual size configured [ ]
+> File auto-saving freq. and naming configured [ ]
+> Time step size configured [ ]
+> Iteration method and parameters configured [ ]
+> Output file when completed, named [ ]
