@@ -6,7 +6,7 @@
 
 # ################################################################################################
 # Job Information
-#SBATCH --job-name="LES3DAB_PLAT_0.5L"           	       ## Job name
+#SBATCH --job-name="<JobName>"           	               ## Job name
 #SBATCH --time=119:30:00                		             ## Time limit hrs:mm:ss
 #SBATCH --nodes=1                      	     	           ## Number of nodes
 #SBATCH --ntasks-per-node=56          	     	           ## Number of tasks per per node
