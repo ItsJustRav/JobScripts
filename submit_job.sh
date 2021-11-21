@@ -6,15 +6,15 @@
 
 # ################################################################################################
 # Job Information
-#SBATCH --job-name="LES3DAB_PLAT_0.5L"           	           ## Job name
-#SBATCH --time=119:30:00                		               ## Time limit hrs:mm:ss
+#SBATCH --job-name="LES3DAB_PLAT_0.5L"           	       ## Job name
+#SBATCH --time=119:30:00                		             ## Time limit hrs:mm:ss
 #SBATCH --nodes=1                      	     	           ## Number of nodes
 #SBATCH --ntasks-per-node=56          	     	           ## Number of tasks per per node
 #SBATCH --error=error_log_%j.log      	                 ## Error log
 #SBATCH --output=sbatch_output.log                       ## Output log
-#SBATCH --mail-user=r.t.b.ranaweera@northumbria.ac.uk    ## E-mail for notifications
+#SBATCH --mail-user=<e-mail>@northumbria.ac.uk           ## E-mail for notifications
 #SBATCH --mail-type=ALL                		               ## Types of notification for e-mails
-#SBATCH --partition=120hour             		               ## Job que to submit <24hour, 48hour, 120hour>
+#SBATCH --partition=120hour             		             ## Job que to submit <24hour, 48hour, 120hour>
 # ################################################################################################
 
 nodes=$SLURM_JOB_NUM_NODES            ## Number of nodes
