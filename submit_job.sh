@@ -20,13 +20,17 @@
 nodes=$SLURM_JOB_NUM_NODES            ## Number of nodes
 cores=$SLURM_CPUS_ON_NODE             ## Number of cores
 
+# Number of Nodes and Cores
+echo "Nodes and Cores"
 echo $nodes
 echo $cores
+# Write out a node list to a file
+scontrol show hostname $SLURM_NODELIST | tr " " "\n" > ./node_file
 
 # Load Modules and setup
 # Commented out due to these being included in .bashrc file for load at login.
 # module purge  ## Remove all modules
-module add openmpi/intel-opa/gcc-hfi/64/1.10.4  ## Load dedicated MPI module
+module add openmpi/intel-opa/intel-hfi/64/1.10.4 #module add openmpi/intel-opa/gcc-hfi/64/1.10.4  ## Load dedicated MPI module
 module add gcc/5.2.0 ## Load GCC module
 # module add slurm/15.08.6 ## Load the SLURM module
 module load ANSYS/2021R1  ## Load the ANSYS module
@@ -46,12 +50,15 @@ echo ""
 # -gu >> Run with graphics minimised
 # -slurm >> Workload manager
 # -t<x> >> number of processors to be used
-# -mpi=<mpi_type> >> MPI implementation to use
+# -mpi=<mpi_type> >> MPI implementation to use use "=intel" for Oswald HPC
+# -driver null >> running with no GUI to avoid errors caused by plot / figure export
+# -pib.infinipath >> To use the the high performance Omnipath networking
+# -cnf=$PWD/node_file  >> Creates a node list which is used to allocate tasks across multiple nodes (can add -ssh but is set by default)
 # -i <journal_file_name.jou> >> Read and execute as per journal file
 # -cflush >> Free the file cache buffer
 
 echo "<--Executing Fluent-->"
-/usr/bin/time -v fluent 3ddp -gu -slurm -t$((nodes*cores)) -mpi=openmpi -i run_case_ustdy.jou -cflush> fluent.log
+/usr/bin/time -v fluent 3ddp -gu -slurm -t$((nodes*cores)) -mpi=intel -pib.infinipath -cnf=$PWD/node_file -driver null -i run_case_ustdy.jou -cflush> fluent.log
 #echo "<--Fluent Finished-->"
 #date
 #echo  ""
