@@ -1,0 +1,6 @@
+name: CFDPlots
+channels:
+  - defaults
+dependencies:
+  - matplotlib
+  - numpy
