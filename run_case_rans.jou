@@ -1,0 +1,20 @@
+;Run LES Case
+;Journal file (TUI commands) for fluent LES case execution on a HPC (Linux) by Ravindu Ranaweera (https://github.com/ItsJustRav)
+;Tested on ANSYS2021R1
+;Lines starting with ";" are comments
+;Batch loading options (confirm overwrite, hide questions, exit on error, re-display question)
+/file/set-batch-options no yes yes no
+;Read case and data
+/file/read-case-data AB25_Iso_FW_init_2021R1.cas.h5
+;Mesh info and memory usage
+/mesh/memory-usage
+;Initialize using velocity-inlet <inlet_name>
+/solve/initialize/compute-defaults/velocity-inlet velocity_inlet
+/solve/initialize/initialize-flow
+;Iterarate for <x> number of steps
+/solve/iterate 300
+;Write the final output
+/file/write-case-data AB25_Iso_FW_init_out_2021R1.dat
+;Performance information
+/parallel/timer/usage
+exit

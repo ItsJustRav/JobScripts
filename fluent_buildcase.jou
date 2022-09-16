@@ -1,3 +1,8 @@
+;*No longer being updated*
+;Lines starting with ; are comments
+;Build & Run Steady RANS Case
+;Journal file (TUI commands) for building case from available mesh and execution on a HPC (Linux) by Ravindu Ranaweera (https://github.com/ItsJustRav)
+;Tested on ANSYS2021R1
 
 ;Load case file
 /file/read-case ;"<casename>.cas"
