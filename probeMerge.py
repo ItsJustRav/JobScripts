@@ -5,7 +5,7 @@ import re
 import time
 
 #######Settings for reading the files#######
-results_filename = 'extracted_results2.txt'
+results_filename = 'extracted_results.txt'
 probe_directory = 'points'
 points_files = 'p'
 tag_start = 'AB25x2_Plat_0-'
@@ -43,7 +43,7 @@ with open(first_file, 'r') as ffile, open (results_filename,'a') as results:
     first_line = ffile.readline().strip()
     cleaned_first_line = re.sub(' +', ",", first_line)
     print('Writing headers...')
-    results.write(cleaned_first_line + "," + "Timestep" + "\n")
+    results.write("Timestep" + "," + cleaned_first_line  + "," + "\n")
 
 #Iterate through each timestep file in the probe data locatio ('probe_directory') extract all probe data, clean it from extra spaces, add the delimiter as ',' and write to the result extraction file ('results_filename')
 
