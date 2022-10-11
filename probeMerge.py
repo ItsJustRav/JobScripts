@@ -73,7 +73,7 @@ fcount = fcount -1
 
 tok=time.time() #End Timer
 tokh=time.ctime()
-length = tok - tik  #Calculate duration
+length = round(tok - tik, 2)  #Calculate duration
 
 print('Processed %s, completed at %s' % (fcount, tokh))
 print('Total duration: %s seconds' % length)
